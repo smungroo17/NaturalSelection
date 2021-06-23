@@ -40,5 +40,13 @@ body {
     color: white;
     font-size: 200%;
     left: 10%;
-    top: 10%;
+    top: 0%;
+}
+.indiv {
+    position: relative;
+    font-family: Trattatello, fantasy;
+    color: white;
+    font-size: 200%;
+    left: 10%;
+    top: -5%;
 }

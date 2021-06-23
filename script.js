@@ -8,7 +8,7 @@ var genChange = 100;
 var generation = 0;
 var day = 0;
 food = []
-amountFood = 50;
+amountFood = 100;
 
 document.addEventListener("DOMContentLoaded", setup);  
 function random(min, max) {
@@ -67,7 +67,7 @@ class Ball {
         this.y += randomY;
         for(var m = 0; m < food.length; m++){
             var euclideanDist = Math.sqrt(Math.pow(this.x-food[m].x, 2) + Math.pow(this.y-food[m].y, 2));
-            if(euclideanDist < 5){
+            if(euclideanDist < 10){
                 this.eaten++;
                 this.r += 2;
                 this.x = food[m].x;
@@ -93,6 +93,7 @@ class Ball {
 }
 function setup() {
     document.getElementById("day").innerHTML = "Day : " + 0;
+    document.getElementById("indiv").innerHTML = "Population size : " + NUM_BALLS;
     var canvas = document.getElementById('canvas');
     var ctx = canvas.getContext('2d');
     
@@ -114,19 +115,25 @@ function animateLoop() {
         var f = food[j];
         f.draw();
     }
-    for (let i = 0; i < NUM_BALLS; i++) {
+    for (let i = 0; i < balls.length; i++) {
         var b = balls[i];
         b.update();
         b.draw();
     }
-    if(balls[NUM_BALLS-1].day%1000 == 0){
+    if(balls[balls.length-1].day%1000 == 0){
         updateDay(ctx);
     }
 }
 
 function updateDay(ctx){
     day++; 
-    document.getElementById("day").innerHTML = "Day : " + day;
+    var l = balls.length;
+    for(let j = 0; j < l; j++){
+        if(balls[j].eaten < 1){
+            balls.splice(j, 1);
+            l--;
+        }
+    }
     for(let i = 0; i < balls.length; i++){
         balls[i].day = 0;
         balls[i].eaten = 0;
@@ -134,6 +141,9 @@ function updateDay(ctx){
         balls[i].y = 400;
         balls[i].r = ballRadius;
     }
+    document.getElementById("day").innerHTML = "Day : " + day;
+    document.getElementById("indiv").innerHTML = "Population size : " + balls.length;
+    var l = balls.length;
     spawnFood(ctx);
 }
 class Food {
@@ -155,10 +165,10 @@ function spawnFood(ctx){
     for(var i = 0; i < amountFood; i++){
         var x = random(0, 800);
         var y = random(0, 800);
-        while(x >= 300 && x <= 500){
+        while(x >= 350 && x <= 450){
             x = random(0, 800);
         }
-        while(y >= 300 && y <= 500){
+        while(y >= 350 && y <= 450){
             y = random(0, 800);
         }
         var f = new Food(x, y, ctx);

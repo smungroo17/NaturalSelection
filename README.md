@@ -7,8 +7,8 @@ Inspired by:
 
 	-	Luke Garrigan article: https://dev.to/lukegarrigan/genetic-algorithms-in-javascript-mc3
 
-	-	John Fish Youtube video and code: 	https://www.youtube.com/watch?v=_Vxjh1QxApA&t=365s
-										https://github.com/johnafish/garden/tree/main/geneticracer
+	-	John Fish Youtube video and code:	https://www.youtube.com/watch?v=_Vxjh1QxApA&t=365s
+											https://github.com/johnafish/garden/tree/main/geneticracer
 
 This project is meant to simulate the process of Natural Selection as it happens in the wild.
 
