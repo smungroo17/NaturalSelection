@@ -12,8 +12,33 @@ body {
 #canvas {
     background-color: white;
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 80%;
+    height: 90%;
+    
+}
+.generations {
+    position: absolute;
+    top: 30%;
+    left: 3%;
+    width: 300px;
+    height: 200px;
+    border: 3px solid rgb(102, 102, 224);
+    background-color: black;
+}
+.gen{
+    position: relative;
+    font-family: Trattatello, fantasy;
+    color: white;
+    font-size: 200%;
+    left: 10%;
+}
+.day {
+    position: relative;
+    font-family: Trattatello, fantasy;
+    color: white;
+    font-size: 200%;
+    left: 10%;
+    top: 10%;
 }
