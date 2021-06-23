@@ -2,14 +2,18 @@
 Genetic Algorithm Project-Natural Selection
 This project is meant to simulate the process of Natural Selection as it happens in the wild.
 Inspired by:
-	-Primer, Youtube Channel: https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ
-	-Luke Garrigan article: https://dev.to/lukegarrigan/genetic-algorithms-in-javascript-mc3
-	-John Fish Youtube video and code: 	https://www.youtube.com/watch?v=_Vxjh1QxApA&t=365s
+
+	-	Primer, Youtube Channel: https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ
+
+	-	Luke Garrigan article: https://dev.to/lukegarrigan/genetic-algorithms-in-javascript-mc3
+
+	-	John Fish Youtube video and code: 	https://www.youtube.com/watch?v=_Vxjh1QxApA&t=365s
 										https://github.com/johnafish/garden/tree/main/geneticracer
 
 This project is meant to simulate the process of Natural Selection as it happens in the wild.
 
 The individual:
+
 	- 	The individual will be simulated by a ball object.
 
 	- 	Males are orange, females are cyan -> they are created at random with 1/2 chance
@@ -20,6 +24,7 @@ The individual:
 	- 	All creatures start at the middle of the canvas (their habitat)
 
 Scheduling:
+
 	- 	The creatures live by a timing of day. 1 day = 1000 steps.
 
 		Note: 1 step is in function of distance. At the beginning, the creatures can step
@@ -31,6 +36,7 @@ Scheduling:
 		to ensure fairness in the random walk and food consumption
 
 Food:
+
 	- 	Every day, a certain amount of food appears in the environment (food represented as small
 		purple circles) at random positions. The food from the previous day disappears. 
 
