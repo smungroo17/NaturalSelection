@@ -46,3 +46,14 @@ Food:
 
 	- 	When a creature eats a food, its size increases (radius of ball increases). However, its size comes back to normal
 		the next day
+
+Some formulas (mostly from https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ):
+
+	-	If we want population size to be constant: Death Rate = Birth Rate
+
+	-	Death Rate = N (pop size) * D (Chances of individual of Dying)
+
+	-	Birth Rate = B (spontaneous apparition) + N * R (Chances of individual reproducing)
+
+	-	We get 	Death Rate = Birth Rate 	<=> 	N * D = B + N * R
+											<=>		N = B/(D - R) 		(Simplification of above equation)
