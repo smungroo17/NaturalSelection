@@ -1,6 +1,9 @@
 # Natural Selection
-Genetic Algorithm Project-Natural Selection
+Genetic Algorithm Project - Natural Selection
+
 This project is meant to simulate the process of Natural Selection as it happens in the wild.
+
+
 Inspired by:
 
 	-	Primer, Youtube Channel: https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ
