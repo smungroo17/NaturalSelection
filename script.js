@@ -134,6 +134,13 @@ function updateDay(ctx){
             l--;
         }
     }
+    for(let k = 0; k < balls.length; k++){
+        if(balls[k].eaten >= 2){
+            var newBall = new Ball(400, 400, ctx);
+            newBall.setGenes();
+            balls.push(newBall);
+        }
+    }
     for(let i = 0; i < balls.length; i++){
         balls[i].day = 0;
         balls[i].eaten = 0;
@@ -165,10 +172,8 @@ function spawnFood(ctx){
     for(var i = 0; i < amountFood; i++){
         var x = random(0, 800);
         var y = random(0, 800);
-        while(x >= 350 && x <= 450){
+        while(x >= 300 && x <= 500 && y >= 300 && y <= 500){
             x = random(0, 800);
-        }
-        while(y >= 350 && y <= 450){
             y = random(0, 800);
         }
         var f = new Food(x, y, ctx);
