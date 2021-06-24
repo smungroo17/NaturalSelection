@@ -43,7 +43,7 @@ Food:
 
 	- 	If a creature is located at a distance of < 10 (calculated using euclidean distance from coords) from a food source, 
 		it can direcly go and eat it (the food disappears from the environment). This was put in place since
-		the chances of a creature and food being at the same exact coordinates is practically 0. (x, y coords are doubles).
+		the chances of a creature and food being at the same exact coordinates is practically 0. (x, y coords are doubles). (*1)
 
 	- 	When a creature eats a food, its size increases (radius of ball increases). However, its size comes back to normal
 		the next day
@@ -63,3 +63,19 @@ Some formulas (mostly from https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN
 
 	-	We get 	Death Rate = Birth Rate 	<=> 	N * D = B + N * R
 											<=>		N = B/(D - R) 		(Simplification of above equation)
+
+Point mutations (IMPORTANT!):
+
+	- 	Point mutations are inserted during replication. It is important to note that an individual DOESN'T CHANGE.
+		When an individual is born some way its genes don't change (EXACTLY AS IN THE WILD).
+
+	-	When replicating (making a copy of itself), an individual leads to a descendant X. That descendant has a 4% chance
+		of suffering from a mutation touching its sight (distance at which it can see food and jump directly to it, see (*1)).
+		This mutation has a 50% chance of being advantageous (can see food at 15 units instead of 10 units) or disadvantageous
+		(can see food at only 5 units instead of 10 units).
+
+	-	Therefore, the current probabilities are:
+			*	Advantageous mutation touching sight = 0.04 * 0.5 = 0.02 = 2% chance
+			*	Disadvantageous mutation touching sight = 0.04 * 0.5 = 0.02 = 2% chance
+
+	- MORE POINT MUTATIONS WILL BE ADDED, MAINLY MUTATIONS TOUCHING DISPLACEMENT IN x, y DIRECTION
