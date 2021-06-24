@@ -43,12 +43,17 @@ Food:
 	- 	Every day, a certain amount of food appears in the environment (food represented as small
 		purple circles) at random positions. The food from the previous day disappears. 
 
-	- 	If a creature is located at a distance of < 5px (calculated using euclidean distance) from a food source, 
+	- 	If a creature is located at a distance of < 10 (calculated using euclidean distance from coords) from a food source, 
 		it can direcly go and eat it (the food disappears from the environment). This was put in place since
 		the chances of a creature and food being at the same exact coordinates is practically 0. (x, y coords are doubles).
 
 	- 	When a creature eats a food, its size increases (radius of ball increases). However, its size comes back to normal
 		the next day
+
+	-	If a creature eats:
+				0 unit of food -> it dies
+				1 unit of food -> it survives to the next day
+				2 units of food -> it survives to the next day and creates a copy of itself
 
 Some formulas (mostly from https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ):
 
