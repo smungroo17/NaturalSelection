@@ -19,8 +19,6 @@ The individual:
 
 	- 	The individual will be simulated by a ball object.
 
-	- 	Males are orange, females are cyan -> they are created at random with 1/2 chance
-
 	- 	Their motion is a random walk --> The next step they take is totally random 
 		in the x, y direction on a 2d plane
 
