@@ -5,7 +5,8 @@ var id = 0;
 var day = 0;
 food = []
 amountFood = 100;
-color = ['rgb(52, 235, 143)'];
+diversity = [];
+colorPresent = [];
 
 document.addEventListener("DOMContentLoaded", setup);  
 function random(min, max) {
@@ -38,7 +39,7 @@ class Gene {
         this.sight = s;
     }
     getColor(){
-        return 'rgb(' + this.rgb1 + ', ' + this.rgb2 + ', ' + this.rgb3 + ')';
+        return ('rgb(' + this.rgb1 + ', ' + this.rgb2 + ', ' + this.rgb3 + ')');
     }
     getColorTuple(){
         return [this.rgb1, this.rgb2, this.rgb3];
@@ -139,7 +140,10 @@ class Ball {
                 this.getGene().setDisplacement(8);
                 this.getGene().setSight(10);
             }
-            addNewIndividual(this);
+            if(!diversity.includes(this.getGene().getColor())){
+                diversity.push(this.getGene().getColor());
+                addNewIndividual(this);
+            }
         }
     }
 }
@@ -156,6 +160,8 @@ function setup() {
         balls.push(b);
     }
     addNewIndividual(balls[0]);
+    diversity.push(balls[0].getGene().getColor());
+    colorPresent.push(balls[0].getGene().getColor());
     spawnFood(ctx);
     animateLoop();
 } 
@@ -204,7 +210,6 @@ function updateDay(ctx){
     day++;
     death();
     replicate(ctx);
-
     for(let i = 0; i < balls.length; i++){
         balls[i].day = 0;
         balls[i].eaten = 0;
@@ -215,6 +220,9 @@ function updateDay(ctx){
     document.getElementById("day").innerHTML = "Day : " + day;
     document.getElementById("indiv").innerHTML = "Population size : " + balls.length;
     spawnFood(ctx);
+    checkColorPresent();
+    //printColor();
+    checkExtinction();
 }
 class Food {
     constructor(x, y, ctx){
@@ -243,21 +251,56 @@ function spawnFood(ctx){
         food.push(f);
     }
 }
+
 function removeFood(index){
     food.splice(index, 1);
 }
+
 function addNewIndividual(ball){
     var toAdd = document.createElement("div");
     toAdd.classList.add("container");
 
     var bounce = document.createElement("div");
     bounce.classList.add("ball");
-    var [rgb1, rgb2, rgb3] = ball.getGene().getColorTuple();
-    bounce.style.backgroundColor = 'rgb(' + rgb1 + ', ' + rgb2 + ', ' + rgb3 + ')';
+    bounce.style.backgroundColor = ball.getGene().getColor();
     toAdd.appendChild(bounce);
+    toAdd.id = ball.getGene().getColor();
 
     toAdd.innerHTML += "<br>" + "Displacement : " + ball.getGene().getDisplacement() + "<br>" +
                         "Sight : " + ball.getGene().getSight();
     var display = document.getElementById("mutated");
     display.appendChild(toAdd);
+}
+
+function checkExtinction(){
+    var l = diversity.length;
+    for(let i = 0; i < l; i++){
+        if(!colorPresent.includes(diversity[i])){
+            var parentNode = document.getElementById('mutated');
+            var childNode = document.getElementById(diversity[i]);
+            parentNode.removeChild(childNode);
+            diversity.splice(i, 1);
+            l--;
+        }
+    }
+}
+
+function checkColorPresent(){
+    colorPresent = [];
+    for(let i = 0; i < balls.length; i++){
+        if(!colorPresent.includes(balls[i].getGene().getColor())){
+            colorPresent.push(balls[i].getGene().getColor());
+        }
+    }
+}
+
+function printColor(){
+    console.log("color present");
+    for(let i = 0; i < colorPresent.length; i++){
+        console.log(colorPresent[i]);
+    }
+    console.log("diverse");
+    for(let j = 0; j < diversity.length; j++){
+        console.log(diversity[j]);
+    }
 }
