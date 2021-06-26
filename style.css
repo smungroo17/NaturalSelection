@@ -12,7 +12,7 @@ body {
     background-color: white;
     position: absolute;
     top: 50%;
-    left: 50%;
+    left: 48%;
     transform: translate(-50%, -50%);
     height: 90%;
     
@@ -20,7 +20,7 @@ body {
 .generations {
     position: absolute;
     top: 30%;
-    left: 3%;
+    left: 1%;
     width: 300px;
     height: 200px;
     border: 3px solid rgb(102, 102, 224);
@@ -48,4 +48,38 @@ body {
     font-size: 200%;
     left: 10%;
     top: -5%;
+}
+.mutated {
+    position: absolute;
+    top: 5%;
+    left: 75%;
+    width: 150px;
+    height: 90%;
+    border: 3px solid rgb(102, 102, 224);
+    background-color: black;
+}
+.ball {
+    position: relative;
+    top: 10%;
+    left: 30%;
+    border-radius: 50%;
+    background-color: red;
+    width: 15px;
+    height: 15px;
+    animation: MoveUpDown 1s linear infinite;
+}
+@keyframes MoveUpDown {
+    0%, 100% {
+      bottom: 0;
+    }
+    50% {
+      bottom: 25px;
+    }
+  }
+.container {
+    position: relative;
+    top: 2%;
+    left: 10%;
+    color: rgb(102, 102, 224);
+    margin-top: 25%;
 }

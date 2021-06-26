@@ -86,7 +86,6 @@ class Ball {
     }
     mutate(){
         var chance = getRandomInt(1, 25);
-        console.log(chance);
         //random number chosen
         //4% chance of mutation
         if(chance == 12){
@@ -125,6 +124,7 @@ class Ball {
                 this.genes[4] = 8;
                 this.genes[6] = 10;
             }
+            addNewIndividual(this);
         }
     }
 }
@@ -140,6 +140,7 @@ function setup() {
         b.setGenes(null);
         balls.push(b);
     }
+    addNewIndividual(balls[0]);
     spawnFood(ctx);
     animateLoop();
 } 
@@ -185,8 +186,7 @@ function replicate(ctx){
     }
 }
 function updateDay(ctx){
-    day++; 
-    
+    day++;
     death();
     replicate(ctx);
 
@@ -230,4 +230,19 @@ function spawnFood(ctx){
 }
 function removeFood(index){
     food.splice(index, 1);
+}
+function addNewIndividual(ball){
+    var toAdd = document.createElement("div");
+    toAdd.classList.add("container");
+
+    var bounce = document.createElement("div");
+    bounce.classList.add("ball");
+    bounce.style.backgroundColor = 'rgb(' + ball.genes[0] + ', ' + ball.genes[1] + ', ' + ball.genes[2] + ')';
+    toAdd.appendChild(bounce);
+
+    toAdd.innerHTML += "<br>" + "Displacement : " + ball.genes[3] + "<br>" +
+                        "Strength : " + ball.genes[5] + "<br>" + 
+                        "Sight : " + ball.genes[6];
+    var display = document.getElementById("mutated");
+    display.appendChild(toAdd);
 }
