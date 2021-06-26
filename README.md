@@ -24,6 +24,18 @@ The individual:
 
 	- 	All creatures start at the middle of the canvas (their habitat)
 
+	-	Add individuals have an attribute Gene object holding all the genetic information
+
+The Gene Object:
+
+	-	The Gene Object of an individual is the central piece of the whole project and it is what
+		drives the evolution of the population as well as natural selection
+
+	-	the Gene Object has 3 main attributes:
+			* 3 alleles holding color (rgb1, rgb2, rgb3)
+			* 2 alleles holding displacement (xDisplacement, yDisplacement) both equal
+			* 1 allele holding the sight value (sight)
+
 Scheduling:
 
 	- 	The creatures live by a timing of day. 1 day = 1000 steps.
@@ -51,7 +63,7 @@ Food:
 	-	If a creature eats:
 				0 unit of food -> it dies
 				1 unit of food -> it survives to the next day
-				2 units of food -> it survives to the next day and creates a copy of itself
+				2 units of food -> it survives to the next day and creates a genetically identical copy of itself
 
 Some formulas (mostly from https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ):
 

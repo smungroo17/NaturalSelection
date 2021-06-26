@@ -16,6 +16,40 @@ function getRandomInt(min, max) {
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+class Gene {
+    constructor(){
+        this.rgb1 = 52;
+        this.rgb2 = 235;
+        this.rgb3 = 143;
+        this.xDisplacement = 10;
+        this.yDisplacement = 10;
+        this.sight = 10;
+    }
+    setColor(c1, c2, c3){
+        this.rgb1 = c1;
+        this.rgb2 = c2;
+        this.rgb3 = c3;
+    }
+    setDisplacement(x, y){
+        this.xDisplacement = x;
+        this.yDisplacement = y;
+    }
+    setSight(s){
+        this.sight = s;
+    }
+    getColor(){
+        return 'rgb(' + this.rgb1 + ', ' + this.rgb2 + ', ' + this.rgb3 + ')';
+    }
+    getColorTuple(){
+        return [this.rgb1, this.rgb2, this.rgb3];
+    }
+    getDisplacement(){
+        return this.xDisplacement;
+    }
+    getSight(){
+        return this.sight;
+    }
+}
 
 class Ball {
     constructor(x,y,ctx) {
@@ -25,19 +59,22 @@ class Ball {
         this.r = ballRadius; // radius
         this.id = id;
         id++;
-        this.genes = [];
+        this.genes = new Gene();
         this.day = 0;
         this.eaten = 0;
     }
+    getGene(){
+        return this.genes;
+    }
     draw() {
-        this.ctx.fillStyle = 'rgb(' + this.genes[0] + ", " + this.genes[1] + ", " + this.genes[2] + ')';
+        this.ctx.fillStyle = this.getGene().getColor();
         this.ctx.beginPath();
         this.ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI, false); 
         this.ctx.fill();
     }
     update() {
-        var randomX = random(-1 * this.genes[3], this.genes[3]);
-        var randomY = random(-1 * this.genes[4], this.genes[4]);
+        var randomX = random(-1 * this.getGene().getDisplacement(), this.getGene().getDisplacement());
+        var randomY = random(-1 * this.getGene().getDisplacement(), this.getGene().getDisplacement());
         if(this.x + randomX > canvas.width-ballRadius || this.x + randomX < ballRadius) {
             randomX = -randomX;
         }
@@ -48,7 +85,7 @@ class Ball {
         this.y += randomY;
         for(var m = 0; m < food.length; m++){
             var euclideanDist = Math.sqrt(Math.pow((this.x-food[m].x), 2) + Math.pow((this.y-food[m].y), 2));
-            if(euclideanDist < this.genes[6]){
+            if(euclideanDist < this.getGene().getSight()){
                 this.eaten++;
                 //this.r += 2;
                 this.x = food[m].x;
@@ -62,26 +99,16 @@ class Ball {
     setGenes(parent) {
         if(parent != null){
             //color->rgb
-            this.genes[0] = parent.genes[0];
-            this.genes[1] = parent.genes[1];
-            this.genes[2] = parent.genes[2];
-
-            for(let i = 3; i < 5; i++){
-                this.genes[i] = parent.genes[i]; //displacement
-            }
-            this.genes[5] = parent.genes[5]; //strength
-            this.genes[6] = parent.genes[6];  //sight
+            var [rgb1, rgb2, rgb3] = parent.getGene().getColorTuple();
+            this.getGene().setColor(rgb1, rgb2, rgb3);
+            
+            this.getGene().setDisplacement(parent.getGene().getDisplacement(), parent.getGene().getDisplacement());
+            this.getGene().setSight(parent.getGene().getSight());
         }
         else{
-            this.genes[0] = 52;
-            this.genes[1] = 235;
-            this.genes[2] = 143;
-
-            for(let i = 3; i < 5; i++){
-                this.genes[i] = 10; //displacement
-            }
-            this.genes[5] = getRandomInt(0, 10); //strength
-            this.genes[6] = 10;  //sight
+            this.getGene().setColor(51, 235, 143);
+            this.getGene().setDisplacement(10);
+            this.getGene().setSight(10);
         }
     }
     mutate(){
@@ -92,37 +119,25 @@ class Ball {
             var fav = getRandomInt(0,3);
             // 2% disadvantageous mutation
             if(fav == 0){
-                this.genes[0] = 41;
-                this.genes[1] = 131;
-                this.genes[2] = 163;
-                this.genes[3] = 10;
-                this.genes[4] = 10;
-                this.genes[6] = 5;
+                this.getGene().setColor(41, 131, 163);
+                this.getGene().setDisplacement(10);
+                this.getGene().setSight(5);
             }
             // 2% advantageous mutation
             else if(fav == 1) {
-                this.genes[0] = 168;
-                this.genes[1] = 30;
-                this.genes[2] = 30;
-                this.genes[3] = 10;
-                this.genes[4] = 10;
-                this.genes[6] = 15;
+                this.getGene().setColor(168, 30, 30);
+                this.getGene().setDisplacement(10);
+                this.getGene().setSight(15);
             }
             else if(fav == 2){
-                this.genes[0] = 153;
-                this.genes[1] = 149;
-                this.genes[2] = 28;
-                this.genes[3] = 12;
-                this.genes[4] = 12;
-                this.genes[6] = 10;
+                this.getGene().setColor(153, 149, 28);
+                this.getGene().setDisplacement(12);
+                this.getGene().setSight(10);
             }
             else{
-                this.genes[0] = 61;
-                this.genes[1] = 39;
-                this.genes[2] = 161;
-                this.genes[3] = 8;
-                this.genes[4] = 8;
-                this.genes[6] = 10;
+                this.getGene().setColor(61, 39, 161);
+                this.getGene().setDisplacement(8);
+                this.getGene().setSight(10);
             }
             addNewIndividual(this);
         }
@@ -237,12 +252,12 @@ function addNewIndividual(ball){
 
     var bounce = document.createElement("div");
     bounce.classList.add("ball");
-    bounce.style.backgroundColor = 'rgb(' + ball.genes[0] + ', ' + ball.genes[1] + ', ' + ball.genes[2] + ')';
+    var [rgb1, rgb2, rgb3] = ball.getGene().getColorTuple();
+    bounce.style.backgroundColor = 'rgb(' + rgb1 + ', ' + rgb2 + ', ' + rgb3 + ')';
     toAdd.appendChild(bounce);
 
-    toAdd.innerHTML += "<br>" + "Displacement : " + ball.genes[3] + "<br>" +
-                        "Strength : " + ball.genes[5] + "<br>" + 
-                        "Sight : " + ball.genes[6];
+    toAdd.innerHTML += "<br>" + "Displacement : " + ball.getGene().getDisplacement() + "<br>" +
+                        "Sight : " + ball.getGene().getSight();
     var display = document.getElementById("mutated");
     display.appendChild(toAdd);
 }
