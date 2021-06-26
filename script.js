@@ -25,12 +25,9 @@ class Ball {
         this.r = ballRadius; // radius
         this.id = id;
         id++;
-        this.life = 0;
         this.genes = [];
-        this.reproduce = 0;
         this.day = 0;
         this.eaten = 0;
-        this.mutated = 0;
     }
     draw() {
         this.ctx.fillStyle = 'rgb(' + this.genes[0] + ", " + this.genes[1] + ", " + this.genes[2] + ')';
@@ -57,13 +54,14 @@ class Ball {
                 this.x = food[m].x;
                 this.y = food[m].y;
                 removeFood(m);
+                return;
             }
         }
         this.day++;
-        this.life++;
     }
     setGenes(parent) {
         if(parent != null){
+            //color->rgb
             this.genes[0] = parent.genes[0];
             this.genes[1] = parent.genes[1];
             this.genes[2] = parent.genes[2];
@@ -88,30 +86,50 @@ class Ball {
     }
     mutate(){
         var chance = getRandomInt(1, 25);
+        console.log(chance);
         //random number chosen
-        //0.1 chance of mutation
+        //4% chance of mutation
         if(chance == 12){
-            var fav = getRandomInt(0,1);
+            var fav = getRandomInt(0,3);
+            // 2% disadvantageous mutation
             if(fav == 0){
                 this.genes[0] = 41;
                 this.genes[1] = 131;
                 this.genes[2] = 163;
+                this.genes[3] = 10;
+                this.genes[4] = 10;
                 this.genes[6] = 5;
             }
-            else{
+            // 2% advantageous mutation
+            else if(fav == 1) {
                 this.genes[0] = 168;
                 this.genes[1] = 30;
                 this.genes[2] = 30;
+                this.genes[3] = 10;
+                this.genes[4] = 10;
                 this.genes[6] = 15;
+            }
+            else if(fav == 2){
+                this.genes[0] = 153;
+                this.genes[1] = 149;
+                this.genes[2] = 28;
+                this.genes[3] = 12;
+                this.genes[4] = 12;
+                this.genes[6] = 10;
+            }
+            else{
+                this.genes[0] = 61;
+                this.genes[1] = 39;
+                this.genes[2] = 161;
+                this.genes[3] = 8;
+                this.genes[4] = 8;
+                this.genes[6] = 10;
             }
         }
     }
 }
 
 function setup() {
-    for(var x = 0; x < 100; x++){
-        console.log(getRandomInt(0, 1));
-    }
     document.getElementById("day").innerHTML = "Day : " + 0;
     document.getElementById("indiv").innerHTML = "Population size : " + NUM_BALLS;
     var canvas = document.getElementById('canvas');
@@ -156,7 +174,8 @@ function death(){
 }
 
 function replicate(ctx){
-    for(let k = 0; k < balls.length; k++){
+    var len = balls.length;
+    for(let k = 0; k < len; k++){
         if(balls[k].eaten >= 2){
             var newBall = new Ball(400, 400, ctx);
             newBall.setGenes(balls[k]);
