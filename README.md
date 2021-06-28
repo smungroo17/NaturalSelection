@@ -1,9 +1,6 @@
 # Natural Selection
 Genetic Algorithm Project - Natural Selection
 
-This project is meant to simulate the process of Natural Selection as it happens in the wild.
-
-
 Inspired by:
 
 	-	Primer, Youtube Channel: https://www.youtube.com/channel/UCKzJFdi57J53Vr_BkTfN3uQ
@@ -88,7 +85,7 @@ Point mutations (IMPORTANT!):
 
 	-	When replicating (making a copy of itself), an individual leads to a descendant X. That descendant has a 2% chance
 		of suffering from a mutation touching its sight (distance at which it can see food and jump directly to it, see (*1)).
-		This mutation has a 50% chance of being advantageous (can see food at 15 du instead of 10 du) or disadvantageous
+		This mutation has a 50% chance of being advantageous (can see food at 20 du instead of 10 du) or disadvantageous
 		(can see food at only 5 du instead of 10 du).
 
 	-	Therefore, the current probabilities are:
