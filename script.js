@@ -84,15 +84,16 @@ class Ball {
         }
         this.x += randomX;
         this.y += randomY;
-        for(var m = 0; m < food.length; m++){
+        var len = food.length;
+        for(var m = 0; m < len; m++){
             var euclideanDist = Math.sqrt(Math.pow((this.x-food[m].x), 2) + Math.pow((this.y-food[m].y), 2));
             if(euclideanDist < this.getGene().getSight()){
                 this.eaten++;
                 //this.r += 2;
                 this.x = food[m].x;
                 this.y = food[m].y;
-                removeFood(m);
-                return;
+                food.splice(m, 1);
+                break;
             }
         }
         this.day++;
@@ -116,35 +117,47 @@ class Ball {
         var chance = getRandomInt(1, 25);
         //random number chosen
         //4% chance of mutation
-        if(chance == 12){
+        if(chance == 5){
             var fav = getRandomInt(0,3);
-            // 2% disadvantageous mutation
+            // 1% disadvantageous mutation touching sight
             if(fav == 0){
                 this.getGene().setColor(41, 131, 163);
                 this.getGene().setDisplacement(10);
                 this.getGene().setSight(5);
             }
-            // 2% advantageous mutation
+            // 1% advantageous mutation touching sight
             else if(fav == 1) {
                 this.getGene().setColor(168, 30, 30);
                 this.getGene().setDisplacement(10);
-                this.getGene().setSight(15);
+                this.getGene().setSight(20);
             }
+            // 1% advantageous mutation touching displacement
             else if(fav == 2){
                 this.getGene().setColor(153, 149, 28);
                 this.getGene().setDisplacement(12);
                 this.getGene().setSight(10);
             }
+            // 1% disadadvantageous mutation touching displacement
             else{
                 this.getGene().setColor(61, 39, 161);
                 this.getGene().setDisplacement(8);
                 this.getGene().setSight(10);
             }
-            if(!diversity.includes(this.getGene().getColor())){
-                diversity.push(this.getGene().getColor());
-                addNewIndividual(this);
-            }
         }
+    }
+}
+class Food {
+    constructor(x, y, ctx){
+        this.x = x;
+        this.y = y;
+        this.ctx = ctx;
+        this.r = 3;
+    }
+    draw() {
+        this.ctx.fillStyle = "rgb(86, 3, 252)";
+        this.ctx.beginPath();
+        this.ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI, false); 
+        this.ctx.fill();
     }
 }
 
@@ -159,9 +172,8 @@ function setup() {
         b.setGenes(null);
         balls.push(b);
     }
-    addNewIndividual(balls[0]);
-    diversity.push(balls[0].getGene().getColor());
     colorPresent.push(balls[0].getGene().getColor());
+    annex();
     spawnFood(ctx);
     animateLoop();
 } 
@@ -185,6 +197,23 @@ function animateLoop() {
     }
 }
 
+function updateDay(ctx){
+    day++;
+    death();
+    replicate(ctx);
+    for(let i = 0; i < balls.length; i++){
+        balls[i].day = 0;
+        balls[i].eaten = 0;
+        balls[i].x = 400;
+        balls[i].y = 400;
+        balls[i].r = ballRadius;
+    }
+    document.getElementById("day").innerHTML = "Day : " + day;
+    document.getElementById("indiv").innerHTML = "Population size : " + balls.length;
+    spawnFood(ctx);
+    annex();
+}
+
 function death(){
     var l = balls.length;
     for(let j = 0; j < l; j++){
@@ -206,38 +235,8 @@ function replicate(ctx){
         }
     }
 }
-function updateDay(ctx){
-    day++;
-    death();
-    replicate(ctx);
-    for(let i = 0; i < balls.length; i++){
-        balls[i].day = 0;
-        balls[i].eaten = 0;
-        balls[i].x = 400;
-        balls[i].y = 400;
-        balls[i].r = ballRadius;
-    }
-    document.getElementById("day").innerHTML = "Day : " + day;
-    document.getElementById("indiv").innerHTML = "Population size : " + balls.length;
-    spawnFood(ctx);
-    checkColorPresent();
-    //printColor();
-    checkExtinction();
-}
-class Food {
-    constructor(x, y, ctx){
-        this.x = x;
-        this.y = y;
-        this.ctx = ctx;
-        this.r = 3;
-    }
-    draw() {
-        this.ctx.fillStyle = "rgb(86, 3, 252)";
-        this.ctx.beginPath();
-        this.ctx.arc(this.x, this.y, this.r, 0, 2*Math.PI, false); 
-        this.ctx.fill();
-    }
-}
+
+
 function spawnFood(ctx){
     food = [];
     for(var i = 0; i < amountFood; i++){
@@ -252,55 +251,80 @@ function spawnFood(ctx){
     }
 }
 
-function removeFood(index){
-    food.splice(index, 1);
-}
-
-function addNewIndividual(ball){
-    var toAdd = document.createElement("div");
-    toAdd.classList.add("container");
-
-    var bounce = document.createElement("div");
-    bounce.classList.add("ball");
-    bounce.style.backgroundColor = ball.getGene().getColor();
-    toAdd.appendChild(bounce);
-    toAdd.id = ball.getGene().getColor();
-
-    toAdd.innerHTML += "<br>" + "Displacement : " + ball.getGene().getDisplacement() + "<br>" +
-                        "Sight : " + ball.getGene().getSight();
+function annex(){
+    checkColorPresent();
     var display = document.getElementById("mutated");
-    display.appendChild(toAdd);
-}
+    var gr = 0;
+    var red = 0;
+    var purp = 0;
+    var yell = 0;
+    var blue = 0;
+    for(let j = 0; j < balls.length; j++){
+        if(balls[j].getGene().getColor() == 'rgb(51, 235, 143)'){
+            gr += 1;
+        }
+        else if(balls[j].getGene().getColor() == 'rgb(41, 131, 163)'){
+            blue += 1;
+        }
+        else if(balls[j].getGene().getColor() == 'rgb(168, 30, 30)'){
+            red += 1;
+        }
+        else if(balls[j].getGene().getColor() == 'rgb(153, 149, 28)'){
+            yell += 1;
+        }
+        else if(balls[j].getGene().getColor() == 'rgb(61, 39, 161)'){
+            purp += 1;
+        }
+    }
+    display.innerHTML = '';
+    for(let i = 0; i < colorPresent.length; i++){
+        if(!diversity.includes(colorPresent[i])){
+            var toAdd = document.createElement("div");
+            toAdd.classList.add("container");
+            
+            var bounce = document.createElement("div");
+            bounce.classList.add("ball");
+            bounce.style.backgroundColor = colorPresent[i];
+            toAdd.appendChild(bounce);
+            toAdd.id = colorPresent[i];
 
-function checkExtinction(){
-    var l = diversity.length;
-    for(let i = 0; i < l; i++){
-        if(!colorPresent.includes(diversity[i])){
-            var parentNode = document.getElementById('mutated');
-            var childNode = document.getElementById(diversity[i]);
-            parentNode.removeChild(childNode);
-            diversity.splice(i, 1);
-            l--;
+            if(colorPresent[i] == 'rgb(51, 235, 143)'){
+                toAdd.innerHTML += "<br>" + "Displacement : " + 10 + "<br>" +
+                "Sight : " + 10 + "<br>" +
+                "Number : " + gr;
+            }
+            else if(colorPresent[i] == 'rgb(41, 131, 163)'){
+                toAdd.innerHTML += "<br>" + "Displacement : " + 10 + "<br>" +
+                "Sight : " + 5 + "<br>" +
+                "Number : " + blue;;
+            }
+            else if(colorPresent[i] == 'rgb(168, 30, 30)'){
+                toAdd.innerHTML += "<br>" + "Displacement : " + 10 + "<br>" +
+                "Sight : " + 15 + "<br>" +
+                "Number : " + red;
+            }
+            else if(colorPresent[i] == 'rgb(153, 149, 28)'){
+                toAdd.innerHTML += "<br>" + "Displacement : " + 12 + "<br>" +
+                "Sight : " + 10 + "<br>" +
+                "Number : " + yell;
+            }
+            else if(colorPresent[i] == 'rgb(61, 39, 161)'){
+                toAdd.innerHTML += "<br>" + "Displacement : " + 8 + "<br>" +
+                "Sight : " + 10 + "<br>" +
+                "Number : " + purp;
+            }
+            display.appendChild(toAdd);
+            diversity.push(colorPresent[i]);
         }
     }
 }
 
 function checkColorPresent(){
     colorPresent = [];
+    diversity = [];
     for(let i = 0; i < balls.length; i++){
         if(!colorPresent.includes(balls[i].getGene().getColor())){
             colorPresent.push(balls[i].getGene().getColor());
         }
-    }
-}
-
-function printColor(){
-    console.log("color present");
-    for(let i = 0; i < colorPresent.length; i++){
-        console.log(colorPresent[i]);
-    }
-    console.log("diverse");
-    for(let j = 0; j < diversity.length; j++){
-        console.log(diversity[j]);
     }
 }

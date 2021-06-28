@@ -15,7 +15,7 @@ body {
     left: 48%;
     transform: translate(-50%, -50%);
     height: 90%;
-    
+    border-radius: 10%;
 }
 .generations {
     position: absolute;
@@ -52,7 +52,7 @@ body {
 .mutated {
     position: absolute;
     top: 5%;
-    left: 75%;
+    left: 80%;
     width: 150px;
     height: 90%;
     border: 3px solid rgb(102, 102, 224);

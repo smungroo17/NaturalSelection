@@ -15,6 +15,10 @@ Inspired by:
 
 This project is meant to simulate the process of Natural Selection as it happens in the wild.
 
+Definition:
+
+Natural Selection: The process whereby organisms better adapted to their environment tend to survive and produce more offspring. The theory of its action was first fully expounded by Charles Darwin and is now believed to be the main process that brings about evolution.
+
 The individual:
 
 	- 	The individual will be simulated by a ball object.
@@ -100,3 +104,14 @@ Point mutations (IMPORTANT!):
 	-	Therefore, the current probabilities are:
 			*	Advantageous mutation touching displacement = 0.04 * 0.25 = 0.01 = 1% chance
 			*	Disadvantageous mutation touching displacement = 0.04 * 0.5 = 0.01 = 1% chance
+
+Exploration vs Exploitation:
+
+	-	The concept of exploration vs exploitation is investigated in this project
+
+	-	The red individuals (displacement = 10, sight = 20) represent exploitation. Their displacement in the environment
+		is standard, however, due to their good sight, they can exploit more ressources around them
+
+	-	The golden individuals (displacement = 12, sight = 10) represent exploration. Their sight in the environment is
+		standard, however, due to their better displacement (longer steps) they can explore the ressources present in 
+		their environment deeper than the other individuals. 
